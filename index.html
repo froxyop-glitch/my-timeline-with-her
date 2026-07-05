@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elena &amp; Mateo — Our Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Work+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Design tokens ----------
+     bg-ink:    #241726  deep plum ink
+     bg-soft:   #34213A  dusk violet
+     rose:      #E8917E  warm coral rose (primary accent)
+     gold:      #D9AE73  soft antique gold (secondary accent)
+     ivory:     #F6ECE2  warm text
+     muted:     #B79CB8  dusty lavender, secondary text
+  ------------------------------------- */
+  :root{
+    --bg-ink:#241726;
+    --bg-soft:#2f1d34;
+    --bg-soft-2:#3a2440;
+    --rose:#E8917E;
+    --gold:#D9AE73;
+    --ivory:#F6ECE2;
+    --muted:#B79CB8;
+    --thread:#5c3f61;
+    --serif:'Fraunces', serif;
+    --sans:'Work Sans', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    background:var(--bg-ink);
+    color:var(--ivory);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--rose);color:var(--bg-ink);}
+
+  a{color:inherit;}
+
+  :focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:4px;
+  }
+
+  h1,h2,h3{font-family:var(--serif);font-weight:500;}
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- fixed corner mark ---------- */
+  .mark{
+    position:fixed;
+    top:28px;
+    left:28px;
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    color:var(--muted);
+    opacity:0;
+    transform:translateY(-6px);
+    transition:opacity .6s ease, transform .6s ease;
+    z-index:40;
+    pointer-events:none;
+  }
+  .mark.visible{opacity:1;transform:translateY(0);}
+  .mark em{font-style:normal;color:var(--rose);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:120px 24px 80px;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 15%, rgba(232,145,126,0.16), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 80% 90%, rgba(217,174,115,0.10), transparent 60%),
+      var(--bg-ink);
+  }
+
+  .hearts{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+  }
+  .hearts span{
+    position:absolute;
+    bottom:-40px;
+    font-size:14px;
+    color:var(--rose);
+    opacity:0;
+    animation:float-up linear infinite;
+  }
+  @keyframes float-up{
+    0%{opacity:0; transform:translateY(0) translateX(0) scale(0.8) rotate(0deg);}
+    10%{opacity:0.55;}
+    90%{opacity:0.35;}
+    100%{opacity:0; transform:translateY(-110vh) translateX(var(--drift,20px)) scale(1.1) rotate(20deg);}
+  }
+
+  .eyebrow{
+    position:relative;
+    z-index:1;
+    font-family:var(--mono);
+    font-size:0.75rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:28px;
+    opacity:0;
+    animation:rise 0.9s ease forwards 0.15s;
+  }
+
+  .names{
+    position:relative;
+    z-index:1;
+    font-size:clamp(2.6rem, 8vw, 5.4rem);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    opacity:0;
+    animation:rise 1s ease forwards 0.35s;
+  }
+  .names .amp{
+    font-style:italic;
+    font-weight:400;
+    color:var(--rose);
+    padding:0 0.08em;
+  }
+
+  .tagline{
+    position:relative;
+    z-index:1;
+    margin-top:18px;
+    max-width:440px;
+    color:var(--muted);
+    font-size:1rem;
+    opacity:0;
+    animation:rise 1s ease forwards 0.55s;
+  }
+
+  @keyframes rise{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .counter{
+    position:relative;
+    z-index:1;
+    margin-top:64px;
+    opacity:0;
+    animation:rise 1s ease forwards 0.75s;
+  }
+  .counter-days{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(3.6rem, 12vw, 7rem);
+    line-height:1;
+    background:linear-gradient(180deg, var(--ivory), var(--rose) 140%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-variant-numeric:tabular-nums;
+  }
+  .counter-label{
+    margin-top:6px;
+    font-family:var(--mono);
+    font-size:0.75rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .counter-sub{
+    margin-top:16px;
+    font-family:var(--mono);
+    font-size:0.85rem;
+    color:var(--gold);
+    letter-spacing:0.06em;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:36px;
+    left:50%;
+    transform:translateX(-50%);
+    background:none;
+    border:none;
+    color:var(--muted);
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    opacity:0;
+    animation:rise 1s ease forwards 1.1s;
+    z-index:1;
+  }
+  .scroll-cue .line{
+    width:1px;
+    height:34px;
+    background:linear-gradient(var(--gold), transparent);
+    animation:pulse-line 2s ease-in-out infinite;
+  }
+  @keyframes pulse-line{
+    0%,100%{opacity:0.4;}
+    50%{opacity:1;}
+  }
+
+  /* ---------- shared section styling ---------- */
+  section{
+    position:relative;
+    padding:140px 0;
+  }
+  section > .wrap > h2{
+    font-size:clamp(2rem, 4.2vw, 2.8rem);
+    font-weight:500;
+    margin-bottom:12px;
+  }
+  .section-note{
+    color:var(--muted);
+    font-family:var(--mono);
+    font-size:0.75rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    margin-bottom:64px;
+  }
+
+  /* ---------- STORY / TIMELINE ---------- */
+  .story{background:var(--bg-ink);}
+
+  .timeline{
+    position:relative;
+  }
+  .thread-line{
+    position:absolute;
+    left:5px;
+    top:6px;
+    bottom:6px;
+    width:2px;
+    background:var(--thread);
+    border-radius:2px;
+  }
+  .thread-fill{
+    width:100%;
+    height:0%;
+    background:linear-gradient(180deg, var(--rose), var(--gold));
+    border-radius:2px;
+    transition:height 0.25s ease-out;
+  }
+
+  .milestone{
+    position:relative;
+    padding-left:44px;
+    margin-bottom:64px;
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .milestone:last-child{margin-bottom:0;}
+  .milestone.visible{opacity:1; transform:translateY(0);}
+
+  .milestone::before{
+    content:'';
+    position:absolute;
+    left:0;
+    top:6px;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:var(--bg-ink);
+    border:2px solid var(--thread);
+    transition:border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+  }
+  .milestone.visible::before{
+    border-color:var(--rose);
+    background:var(--rose);
+    box-shadow:0 0 0 5px rgba(232,145,126,0.14);
+  }
+
+  .milestone-date{
+    display:block;
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+  .milestone-title{
+    font-size:1.5rem;
+    margin-bottom:8px;
+  }
+  .milestone-text{
+    color:var(--muted);
+    max-width:520px;
+    font-size:0.98rem;
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery{background:var(--bg-soft);}
+
+  .polaroid-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:32px 24px;
+  }
+  @media (max-width:720px){
+    .polaroid-grid{grid-template-columns:repeat(2, 1fr);}
+  }
+  @media (max-width:460px){
+    .polaroid-grid{grid-template-columns:1fr;}
+  }
+
+  .polaroid{
+    background:#fdf9f3;
+    padding:12px 12px 20px;
+    border-radius:3px;
+    box-shadow:0 12px 28px rgba(0,0,0,0.35);
+    transform:rotate(var(--rot,0deg));
+    transition:transform 0.35s ease, box-shadow 0.35s ease;
+    cursor:default;
+  }
+  .polaroid:hover{
+    transform:rotate(0deg) translateY(-6px) scale(1.03);
+    box-shadow:0 18px 36px rgba(0,0,0,0.45);
+  }
+  .polaroid-photo{
+    aspect-ratio:1/1;
+    border-radius:2px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2.4rem;
+    background:var(--g, linear-gradient(135deg, #E8917E, #D9AE73));
+  }
+  .polaroid-caption{
+    margin-top:12px;
+    text-align:center;
+    color:#3a2b2b;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:0.88rem;
+  }
+
+  /* ---------- LETTER ---------- */
+  .letter{
+    background:var(--bg-ink);
+    display:flex;
+    justify-content:center;
+  }
+  .letter-card{
+    max-width:600px;
+    margin:0 28px;
+    padding:56px 48px;
+    background:var(--bg-soft-2);
+    border-radius:6px;
+    position:relative;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+  }
+  .letter-card::before{
+    content:'';
+    position:absolute;
+    top:0; left:32px; right:32px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .letter-mark{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:block;
+    margin-bottom:24px;
+  }
+  .letter-body{
+    font-family:var(--serif);
+    font-size:1.2rem;
+    line-height:1.75;
+    color:var(--ivory);
+  }
+  .letter-body + .letter-body{margin-top:1.1em;}
+  .letter-sign{
+    margin-top:32px;
+    font-family:var(--serif);
+    font-style:italic;
+    color:var(--rose);
+    font-size:1.1rem;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:64px 28px 48px;
+    text-align:center;
+    color:var(--muted);
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+  }
+  footer span{color:var(--rose);}
+</style>
+</head>
+<body>
+
+  <div class="mark" id="cornerMark">E <em>&amp;</em> M</div>
+
+  <header class="hero" id="hero">
+    <div class="hearts" id="hearts"></div>
+    <p class="eyebrow" id="sinceLabel">Since June 14, 2019</p>
+    <h1 class="names">Elena <span class="amp">&amp;</span> Mateo</h1>
+    <p class="tagline">Two people, one ongoing, slightly chaotic, mostly wonderful story.</p>
+    <div class="counter">
+      <div class="counter-days" id="counterDays">0</div>
+      <div class="counter-label">days, and counting</div>
+      <div class="counter-sub" id="counterSub">00:00:00</div>
+    </div>
+    <button class="scroll-cue" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">
+      <span>our story</span>
+      <span class="line"></span>
+    </button>
+  </header>
+
+  <section class="story" id="story">
+    <div class="wrap">
+      <h2>Our Story</h2>
+      <p class="section-note">a rough thread through the good parts</p>
+      <div class="timeline">
+        <div class="thread-line"><div class="thread-fill" id="threadFill"></div></div>
+        <div id="timelineList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="moments">
+    <div class="wrap">
+      <h2>Little Moments</h2>
+      <p class="section-note">a few of the ones we kept</p>
+      <div class="polaroid-grid" id="galleryGrid"></div>
+    </div>
+  </section>
+
+  <section class="letter" id="letter">
+    <div class="letter-card">
+      <span class="letter-mark">A note, mostly for you</span>
+      <p class="letter-body">I don't remember most Tuesdays. I don't remember what we ate two weeks ago, or what the weather was doing on any given afternoon. But I remember the shape of the years — the apartment that was too small, the trip we couldn't afford, the mountain we probably shouldn't have climbed.</p>
+      <p class="letter-body">Mostly I remember choosing this, again, on the ordinary days when no one was watching. That's the part I'd do over, exactly the same, every time.</p>
+      <p class="letter-sign">— M.</p>
+    </div>
+  </section>
+
+  <footer>
+    made with a little love and a lot of coffee &nbsp;·&nbsp; <span>edit the CONFIG in the code to make it yours</span>
+  </footer>
+
+<script>
+  /* =========================================================
+     CONFIG — edit these values to make the page yours
+     ========================================================= */
+  const CONFIG = {
+    startDate: '2019-06-14T00:00:00',
+    milestones: [
+      { date: 'June 14, 2019', title: 'The First Hello', text: 'A spilled coffee, a borrowed napkin, and forty minutes that turned into four hours at a corner table.' },
+      { date: 'March 2020', title: 'Snowed In', text: "Three feet of snow and a car that wouldn't start, so we stayed in and learned we could survive each other's worst mornings." },
+      { date: 'August 2021', title: 'The Long Drive', text: 'Four thousand miles, one map with no real plan, and the discovery that the best conversations happen at seventy miles an hour.' },
+      { date: 'November 2022', title: 'Our Own Door', text: 'A key that always stuck, a couch too big for the stairwell, and the first place that was ours instead of mine or yours.' },
+      { date: 'September 2024', title: 'The Question', text: 'Halfway up a mountain we insisted on climbing, with the ring the whole time in a jacket pocket that kept slipping.' },
+      { date: 'Today', title: 'Still Writing It', text: 'Some ordinary Tuesday, doing the dishes, gently arguing about the thermostat, still choosing this every day.' }
+    ],
+    moments: [
+      { emoji: '🚗', caption: 'First road trip, somewhere in Nevada', from: '#E8917E', to: '#D9AE73' },
+      { emoji: '🐾', caption: 'The dog decided to adopt us', from: '#B79CB8', to: '#E8917E' },
+      { emoji: '🥞', caption: 'Sunday pancakes, every time', from: '#D9AE73', to: '#8a5d8f' },
+      { emoji: '🎉', caption: "New Year's, too much confetti", from: '#E8917E', to: '#5c3f61' },
+      { emoji: '☔', caption: 'Rainy apartment, first winter', from: '#6b4b70', to: '#B79CB8' },
+      { emoji: '⛰️', caption: "The mountain we shouldn't have climbed", from: '#D9AE73', to: '#E8917E' }
+    ]
+  };
+
+  /* ---------- render timeline ---------- */
+  const timelineList = document.getElementById('timelineList');
+  CONFIG.milestones.forEach(m => {
+    const el = document.createElement('div');
+    el.className = 'milestone';
+    el.innerHTML = `
+      <span class="milestone-date">${m.date}</span>
+      <h3 class="milestone-title">${m.title}</h3>
+      <p class="milestone-text">${m.text}</p>
+    `;
+    timelineList.appendChild(el);
+  });
+
+  /* ---------- render gallery ---------- */
+  const galleryGrid = document.getElementById('galleryGrid');
+  CONFIG.moments.forEach((mo, i) => {
+    const el = document.createElement('div');
+    el.className = 'polaroid';
+    el.style.setProperty('--rot', (i % 2 === 0 ? '-3deg' : '2.5deg'));
+    el.innerHTML = `
+      <div class="polaroid-photo" style="--g: linear-gradient(135deg, ${mo.from}, ${mo.to})">${mo.emoji}</div>
+      <div class="polaroid-caption">${mo.caption}</div>
+    `;
+    galleryGrid.appendChild(el);
+  });
+
+  /* ---------- since label ---------- */
+  const startDate = new Date(CONFIG.startDate);
+  document.getElementById('sinceLabel').textContent =
+    'Since ' + startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  /* ---------- live counter ---------- */
+  function pad(n){ return n.toString().padStart(2, '0'); }
+  function updateCounter(){
+    const now = new Date();
+    const diffMs = now - startDate;
+    const totalSeconds = Math.floor(diffMs / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    document.getElementById('counterDays').textContent = days.toLocaleString('en-US');
+    document.getElementById('counterSub').textContent = `${pad(hours)} : ${pad(minutes)} : ${pad(seconds)}`;
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  /* ---------- floating hearts (ambient, hero only) ---------- */
+  const heartsContainer = document.getElementById('hearts');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    const heartChars = ['♥','♡'];
+    for (let i = 0; i < 14; i++) {
+      const span = document.createElement('span');
+      span.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+      span.style.left = Math.random() * 100 + '%';
+      span.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+      span.style.animationDuration = (10 + Math.random() * 10) + 's';
+      span.style.animationDelay = (Math.random() * 12) + 's';
+      span.style.fontSize = (10 + Math.random() * 14) + 'px';
+      heartsContainer.appendChild(span);
+    }
+  }
+
+  /* ---------- corner mark visibility ---------- */
+  const cornerMark = document.getElementById('cornerMark');
+  const heroEl = document.getElementById('hero');
+  const markObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      cornerMark.classList.toggle('visible', !entry.isIntersecting);
+    });
+  }, { threshold: 0.1 });
+  markObserver.observe(heroEl);
+
+  /* ---------- milestone reveal on scroll ---------- */
+  const milestoneEls = document.querySelectorAll('.milestone');
+  const milestoneObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.35 });
+  milestoneEls.forEach(el => milestoneObserver.observe(el));
+
+  /* ---------- thread fill driven by scroll progress through story section ---------- */
+  const storySection = document.getElementById('story');
+  const threadFill = document.getElementById('threadFill');
+  let ticking = false;
+  function updateThread(){
+    const rect = storySection.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const total = rect.height + vh * 0.5;
+    const progressed = vh * 0.85 - rect.top;
+    let pct = (progressed / total) * 100;
+    pct = Math.max(0, Math.min(100, pct));
+    threadFill.style.height = pct + '%';
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateThread);
+      ticking = true;
+    }
+  });
+  updateThread();
+</script>
+</body>
+</html>
